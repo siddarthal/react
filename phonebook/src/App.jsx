@@ -8,6 +8,8 @@ function App() {
   const [name, setName] = useState("");
   const [number, setNumber] = useState("");
   const [book, setBook] = useState([]);
+  const [content, setContent] = useState(null);
+  const [wrong, setWrong] = useState(null);
   useEffect(() => {
     // console.log("useEffect");
     api.getAll().then((response) => {
@@ -29,6 +31,8 @@ function App() {
         setBook(book.concat(res));
         setName("");
         setNumber("");
+        setContent(`added phone number ${res.names} successfully`);
+        setTimeout(() => setContent(null), 5000);
       });
     } else {
       const change = findUser();
@@ -68,7 +72,12 @@ function App() {
   const deleteItem = (id) => {
     api
       .remove(id)
-      .then((res) => setBook(book.filter((item) => item.id !== id)))
+      .then((res) => {
+        setBook(book.filter((item) => item.id !== id));
+        const set = book.find((item) => item.id === id);
+        setWrong(`deleted item succesfully ${set.names}`);
+        setTimeout(() => setWrong(null), 5000);
+      })
       .catch((e) => {
         alert(`contact is already deleted in database`);
         setBook(book.filter((item) => item.id !== id));
@@ -77,6 +86,8 @@ function App() {
   return (
     <>
       <h2>Phone book</h2>
+      <Added message={content} />
+      <Deletion message={wrong} />
       <label>Search: </label>{" "}
       <input type="text" placeholder="enter name..." onChange={handleSearch} />
       <h2>add new</h2>
@@ -90,7 +101,7 @@ function App() {
       <h2>Numbers</h2>
       <ul>
         {filtered.map((item) => (
-          <Content 
+          <Content
             value={item}
             key={item.id}
             handleDelete={() => deleteItem(item.id)}
@@ -101,5 +112,16 @@ function App() {
     </>
   );
 }
-
+const Added = ({ message }) => {
+  if (!message) {
+    return null;
+  }
+  return <div className="success">{message}</div>;
+};
+const Deletion = ({ message }) => {
+  if (!message) {
+    return null;
+  }
+  return <div className="error">{message}</div>;
+};
 export default App;
