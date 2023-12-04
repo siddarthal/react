@@ -4,31 +4,48 @@ import "./App.css";
 import Filter from "./Components/Filter";
 import Personform from "./Components/Personform";
 import axios from "axios";
-import {getAll, post} from './services/service'
+import api from "./services/service";
 function App() {
   const [name, setName] = useState("");
   const [number, setNumber] = useState("");
   const [book, setBook] = useState([]);
   useEffect(() => {
     // console.log("useEffect");
-    axios.get("http://localhost:3001/persons").then((response) => {
+    api.getAll().then((response) => {
       console.log("success");
       // console.log(response.data);
-      setBook(response.data);
+      setBook(response);
     });
   }, []);
   const [search, setSearch] = useState("");
   const handleSubmit = (event) => {
     event.preventDefault();
-    const arr={ names: name, numbers: number };
-    axios.post("http://localhost:3001/persons", arr).then((res) => {
-      const data = res.data;
-      setBook(book.concat(data));
-      setName("");
-      setNumber("");
-    });
+    const findUser = () => {
+      return book.find((item) => item.names === name);
+    };
+    console.log(findUser());
+    if (!findUser()) {
+      const arr = { names: name, numbers: number };
+      api.post(arr).then((res) => {
+        setBook(book.concat(res));
+        setName("");
+        setNumber("");
+      });
+    } else {
+      const change = findUser();
+      const changeNumber = { ...change, numbers: number };
+      const idx = change.id;
+      console.log(idx);
+      api.update(idx, changeNumber).then((res) => {
+        alert(
+          "this name already exists do you update your older number for sure"
+        );
+        setBook(book.map((item) => (item.id !== idx ? item : res)));
+      });
+      console.log(changeNumber);
+    }
+
     // console.log(arr);
-   
   };
   const handleName = (event) => {
     // console.log(event.target.value);
@@ -45,6 +62,15 @@ function App() {
   const filtered = book.filter((item) =>
     item.names.toLowerCase().includes(search.toLowerCase())
   );
+  const deleteItem = (id) => {
+    api
+      .remove(id)
+      .then((res) => setBook(book.filter((item) => item.id !== id)))
+      .catch((e) => {
+        alert(`contact is already deleted in database`);
+        setBook(book.filter((item) => item.id !== id));
+      });
+  };
   return (
     <>
       <h2>Phone book</h2>
@@ -60,8 +86,12 @@ function App() {
       />
       <h2>Numbers</h2>
       <ul>
-        {filtered.map((item, idx) => (
-          <Content value={item} key={idx} />
+        {filtered.map((item) => (
+          <Content
+            value={item}
+            key={item.id}
+            handleDelete={() => deleteItem(item.id)}
+          />
         ))}
       </ul>
       {console.log(book)}
