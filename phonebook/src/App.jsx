@@ -4,38 +4,42 @@ import "./App.css";
 import Filter from "./Components/Filter";
 import Personform from "./Components/Personform";
 import axios from "axios";
+import {getAll, post} from './services/service'
 function App() {
   const [name, setName] = useState("");
   const [number, setNumber] = useState("");
   const [book, setBook] = useState([]);
   useEffect(() => {
-    console.log("useEffect");
+    // console.log("useEffect");
     axios.get("http://localhost:3001/persons").then((response) => {
       console.log("success");
-      console.log(response.data);
+      // console.log(response.data);
       setBook(response.data);
     });
   }, []);
   const [search, setSearch] = useState("");
   const handleSubmit = (event) => {
     event.preventDefault();
-    const arr = [...book];
-    arr.push({ names: name, numbers: number });
+    const arr={ names: name, numbers: number };
+    axios.post("http://localhost:3001/persons", arr).then((res) => {
+      const data = res.data;
+      setBook(book.concat(data));
+      setName("");
+      setNumber("");
+    });
     // console.log(arr);
-    setBook(arr);
-    setName("");
-    setNumber("");
+   
   };
   const handleName = (event) => {
-    console.log(event.target.value);
+    // console.log(event.target.value);
     setName(event.target.value);
   };
   const handlePhone = (event) => {
-    console.log(event.target.value);
+    // console.log(event.target.value);
     setNumber(event.target.value);
   };
   const handleSearch = (event) => {
-    console.log(event.target.value);
+    // console.log(event.target.value);
     setSearch(event.target.value);
   };
   const filtered = book.filter((item) =>
