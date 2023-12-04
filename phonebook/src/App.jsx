@@ -1,21 +1,27 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Content from "./Components/Content";
 import "./App.css";
 import Filter from "./Components/Filter";
 import Personform from "./Components/Personform";
+import axios from "axios";
 function App() {
   const [name, setName] = useState("");
   const [number, setNumber] = useState("");
-  const [book, setBook] = useState([
-    { names: "John Doe", numbers: "123-456-7890" },
-    { names: "Jane Smith", numbers: "987-654-3210" },
-  ]);
+  const [book, setBook] = useState([]);
+  useEffect(() => {
+    console.log("useEffect");
+    axios.get("http://localhost:3001/persons").then((response) => {
+      console.log("success");
+      console.log(response.data);
+      setBook(response.data);
+    });
+  }, []);
   const [search, setSearch] = useState("");
   const handleSubmit = (event) => {
     event.preventDefault();
     const arr = [...book];
     arr.push({ names: name, numbers: number });
-    console.log(arr);
+    // console.log(arr);
     setBook(arr);
     setName("");
     setNumber("");
