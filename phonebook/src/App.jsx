@@ -90,7 +90,7 @@ function App() {
       <h2>Numbers</h2>
       <ul>
         {filtered.map((item) => (
-          <Content
+          <Content 
             value={item}
             key={item.id}
             handleDelete={() => deleteItem(item.id)}
