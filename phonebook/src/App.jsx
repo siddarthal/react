@@ -3,7 +3,6 @@ import Content from "./Components/Content";
 import "./App.css";
 import Filter from "./Components/Filter";
 import Personform from "./Components/Personform";
-import axios from "axios";
 import api from "./services/service";
 function App() {
   const [name, setName] = useState("");
@@ -36,13 +35,17 @@ function App() {
       const changeNumber = { ...change, numbers: number };
       const idx = change.id;
       console.log(idx);
-      api.update(idx, changeNumber).then((res) => {
-        alert(
-          "this name already exists do you update your older number for sure"
-        );
-        setBook(book.map((item) => (item.id !== idx ? item : res)));
-      });
-      console.log(changeNumber);
+      const userConfirmed = window.confirm(
+        "name is already saved with this number do you want to update the number"
+      );
+      if (userConfirmed) {
+        api.update(idx, changeNumber).then((res) => {
+          setBook(book.map((item) => (item.id !== idx ? item : res)));
+        });
+      } else {
+        alert("not saved try again");
+      }
+      // console.log(changeNumber);
     }
 
     // console.log(arr);
