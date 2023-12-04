@@ -44,6 +44,11 @@ const App = () => {
       console.log("sidd", response);
       setNotes(notes.map((n) => (n.id !== id ? n : response)));
       console.log(`importance of ${id} needs to be toggled`);
+    }).catch(error => {
+      alert(
+        `the note '${note.content}' was already deleted from server`
+      )
+      setNotes(notes.filter(n => n.id !== id))
     });
   };
   const notesToShow = showAll
