@@ -1,6 +1,8 @@
 // console.log("hi");
 const express = require("express");
 const app = express();
+const cors = require("cors");
+app.use(cors("*"));
 app.use(express.json());
 let book = [
   {
@@ -28,20 +30,18 @@ const genId = () => {
   return Math.floor(Math.random() * 100000000);
 };
 const checkName = (Name) => {
-    // return book.some(item => item.name === Name);
-    let exists=false;
-    book.forEach((item) => {
-        if (item.name === Name) {
-          exists= true;
-         
-        }
-      });
-      return exists;
-    
+  // return book.some(item => item.name === Name);
+  let exists = false;
+  book.forEach((item) => {
+    if (item.name === Name) {
+      exists = true;
+    }
+  });
+  return exists;
 };
-app.post("/api/people", (req, res) => {
+app.post("/api/contacts", (req, res) => {
   const body = req.body;
-//   console.log(body);
+    console.log(body);
   if (!(body.name || body.contact)) {
     return res.status(400).json({ error: "no fields cant be empty" });
   } else if (checkName(body.name)) {
