@@ -31,6 +31,7 @@ function App() {
         setBook(book.concat(res));
         setName("");
         setNumber("");
+        console.log('res',res);
         setContent(`added phone number ${res.names} successfully`);
         setTimeout(() => setContent(null), 5000);
       });

@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const url = "http://localhost:3001/persons";
+const url = "/api/contacts";
 const getAll = () => {
   const promise = axios.get(url);
   return promise.then((response) => response.data);

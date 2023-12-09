@@ -2,28 +2,28 @@
 const express = require("express");
 const app = express();
 const cors = require("cors");
-app.use(cors("*"));
+app.use(cors());
 app.use(express.json());
 let book = [
   {
     id: 1,
-    name: "Arto Hellas",
-    number: "040-123456",
+    names: "Arto Hellas",
+    numbers: "040-123456",
   },
   {
     id: 2,
-    name: "Ada Lovelace",
-    number: "39-44-5323523",
+    names: "Ada Lovelace",
+    numbers: "39-44-5323523",
   },
   {
     id: 3,
-    name: "Dan Abramov",
-    number: "12-43-234345",
+    names: "Dan Abramov",
+    numbers: "12-43-234345",
   },
   {
     id: 4,
-    name: "Mary Poppendieck",
-    number: "39-23-6423122",
+    names: "Mary Poppendieck",
+    numbers: "39-23-6423122",
   },
 ];
 const genId = () => {
@@ -41,15 +41,15 @@ const checkName = (Name) => {
 };
 app.post("/api/contacts", (req, res) => {
   const body = req.body;
-    console.log(body);
-  if (!(body.name || body.contact)) {
+  console.log(body);
+  if (!(body.names || body.numbers)) {
     return res.status(400).json({ error: "no fields cant be empty" });
-  } else if (checkName(body.name)) {
+  } else if (checkName(body.names)) {
     return res.status(400).json({ error: "contact is already available" });
   }
   const newC = {
-    name: body.name,
-    number: body.number,
+    names: body.names,
+    numbers: body.numbers,
   };
   let id = genId();
   newC.id = id;
@@ -79,12 +79,24 @@ app.get("/api/contacts/:id", (req, res) => {
     res.status(200).json(number);
   }
 });
-app.delete("/api/delete/:id", (req, res) => {
+app.delete("/api/contacts/:id", (req, res) => {
   const id = Number(req.params.id);
   book = book.filter((item) => item.id !== id);
   res.status(204).end();
 });
-
+app.put("/api/contacts/:id", (req, res) => {
+  const id = Number(req.params.id);
+  console.log("params", req.body);
+  let search = book.find((item) => item.id === id);
+  if (search) {
+    // search.
+    search.numbers = req.body.numbers;
+    console.log(search);
+    res.status(200).json(search);
+  } else {
+    res.status(404).end();
+  }
+});
 const PORT = 3001;
 app.listen(PORT);
 console.log("app is listening on port 3001");
