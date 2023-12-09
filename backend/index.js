@@ -3,7 +3,7 @@ const express = require("express");
 const cors = require("cors");
 const app = express();
 app.use(cors());
-app.use(express.static("dist"));
+// app.use(express.static("dist"));
 app.use(express.json());
 let notes = [
   {
@@ -68,7 +68,16 @@ app.get("/api/notes/:id", (req, res) => {
     res.status(404).end();
   }
 });
-
+app.put("/api/notes/:id",(req,res)=>{
+  const id = Number(req.params.id);
+  let note = notes.find((note) => note.id === id);
+  if (note) {
+    note.important=!note.important;
+    res.json(note);
+  } else {
+    res.status(404).end();
+  }
+})
 app.delete("/api/notes/del/:id", (req, res) => {
   const id = Number(req.params.id);
   notes = notes.filter((note) => note.id !== id);

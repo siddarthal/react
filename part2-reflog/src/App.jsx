@@ -56,7 +56,8 @@ const App = () => {
       })
       .catch((error) => {
         setErrorMessage(
-          `error message man becoz${note.content} is already deleted`
+          console.log(error)
+          // `error message man becoz${note.content} is already deleted`
         );
         setTimeout(()=>setErrorMessage(null), 5000);
         setNotes(notes.filter((n) => n.id !== id));
