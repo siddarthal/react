@@ -1,1 +1,21 @@
 export PATH="/c/Users/siddartha_legala/node-v21.1.0-win-x64/node-v21.1.0-win-x64:$PATH"
+
+
+mongodb+srv://siddartharedddyl:<password>@ipvsid.vlxb6w0.mongodb.net/?retryWrites=true&w=majority
+
+
+2. Install your driver
+
+Run the following on the command line
+
+npm install mongodb
+
+View MongoDB Node.js Driver installation instructions.
+3. Add your connection string into your application code
+
+View full code sample
+
+mongodb+srv://siddartharedddyl:<password>@ipvsid.vlxb6w0.mongodb.net/?retryWrites=true&w=majority
+
+Replace <password> with the password for the siddartharedddyl user. Ensure any option params are URL encoded
+.
