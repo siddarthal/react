@@ -14,7 +14,11 @@ const validateUserName = (username) => {
   return false;
 };
 const validateDOBOne = (dob) => {
-  return false;
+    const date =new Date(dob)
+    if(!(isNaN(date))){
+        return false;
+    }
+  return true;
 };
 const validateDOBTwo = (dob) => {
   return false;
