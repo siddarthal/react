@@ -26,6 +26,10 @@ const getList = () => {
 
 const addToList = (body, res) => {
   try {
+    const dataValidation = service.validateData(body);
+    if(dataValidation.value){
+      throw new Error(dataValidation.message);
+    }
     if (service.validateName(body.name)) {
       throw new Error("invalid naming format name should contain only alphabets");
     }

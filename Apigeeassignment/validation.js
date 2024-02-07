@@ -51,9 +51,20 @@ const validateUserNameAlreadyExists = (name, list) => {
 const validateName = (name) => {
   return !/^[A-Za-z]+$/.test(name);
 };
+const validateData = (data) => {  
+const obj={value:false,message:"no errors found in data"};
+  if (!data.name || !data.dob || !data.userName) {
+    obj.message = "name,dob,userName are required fields";
+    obj.value = true;
+    return obj;
+  }
+return obj;
+}
 module.exports = {
+  validateData,
   validateName,
   validateUserName,
   validateDOBTwo,
   validateUserNameAlreadyExists,
 };
+
