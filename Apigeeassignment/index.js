@@ -4,12 +4,12 @@ const app = express();
 app.use(express.json());
 
 app.get("/v1/hospital", (req, res) => {
-  const list = service.getList();
-  res.status(200).json(list);
+  
+  res.status(200).json(service.getList());
 });
 app.post("/v1/hospital", (req, res) => {
   const body = req.body;
-
+  console.log(req.body, "body");
   return service.addToList(body, res);
 });
 const PORT = 3000;

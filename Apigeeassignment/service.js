@@ -6,7 +6,7 @@ const list = [
     name: "siddartha",
     dob: "23-02-2001",
     userName: "siddarthal@outlook.com",
-    doj: "05-2-2024",
+    doj: "05-02-2024",
   },
 ];
 const generateId = () => {
@@ -27,24 +27,22 @@ const getList = () => {
 const addToList = (body, res) => {
   try {
     if (service.validateName(body.name)) {
-      throw new Error("invalid naming format");
+      throw new Error("invalid naming format name should contain only alphabets");
     }
     if (service.validateUserName(body.userName)) {
-      throw new Error("invaild user name format");
+      throw new Error("invaild user name email format  example : yyy@yyy.yy");
     }
-    if (service.validateDOBOne(body.dob)) {
-      throw new Error("Invalid format of birth format");
-    }
-    if (service.validateDOBTwo(body.dob)) {
-      throw new Error("Invalid date of birth format");
+    const obj = service.validateDOBTwo(body.dob);
+    if (obj.value) {
+      throw new Error(obj.message);
     }
     if (service.validateUserNameAlreadyExists(body.userName, list)) {
-      throw new Error("user id already exists please try with new useremail");
+      throw new Error("user id already exists please try with different email");
     }
     body.id = generateId();
 
     body.doj = createDate();
-    
+
     list.push(body);
     const { userName, ...data } = body;
     return res.status(201).json(data);
