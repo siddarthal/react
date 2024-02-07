@@ -1,7 +1,8 @@
 To start this api 
-first go to the do root folder on any terminal of this project
-and follow the steps below and run the commands
+first go to the  root folder of this project on any terminal
+and follow the steps below 
 
+run the below commands
 ```sh
     cd Apigeeassignment
 ```
@@ -9,7 +10,7 @@ to install all dependencies run
 ```sh
     npm init
 ```
-u can run the project by running either commands
+u can run the project by running either the commands
 ```sh
     node index.js
 ```
@@ -19,13 +20,14 @@ or
     npx nodemon index.js
  ```
 
- thats all api will be started at port 3000
-u can access api at 
+ thats all api  is started at port 3000
+
+u can access api at url
 
 ```sh
     http://localhost:3000/v1/hospital
 ```
-both get and post requests are accepted here
+both get and post requests are accepted by the api 
 
 
 Happy Debugging!
