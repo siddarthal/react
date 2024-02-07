@@ -8,7 +8,7 @@ run the below commands
 ```
 to install all dependencies run
 ```sh
-    npm init
+    npm install
 ```
 u can run the project by running either the commands
 ```sh
